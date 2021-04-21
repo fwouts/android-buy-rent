@@ -1,13 +1,15 @@
 package com.fwouts.buyrent.ui.list
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.recyclerview.widget.DiffUtil
+import androidx.lifecycle.ViewModel
 import com.fwouts.buyrent.R
 import com.fwouts.buyrent.domain.Property
 
-class PropertyCardViewModelImpl(application: Application, private val property: Property) :
-    AndroidViewModel(application), PropertyCardViewModel {
+class PropertyCardViewModelImpl(
+    private val application: Application,
+    private val property: Property
+) :
+    ViewModel(), PropertyCardViewModel {
     override val id: Long
         get() {
             return property.id
@@ -20,15 +22,14 @@ class PropertyCardViewModelImpl(application: Application, private val property: 
 
     override val description: String
         get() {
-            val resources = getApplication<Application>().resources
             return property.car?.let { car ->
-                resources.getString(
+                application.resources.getString(
                     R.string.property_card_description_with_car,
                     this.formatOptionalDecimal(property.bed),
                     this.formatOptionalDecimal(property.bath),
                     car.toString(10)
                 )
-            } ?: resources.getString(
+            } ?: application.resources.getString(
                 R.string.property_card_description_without_car,
                 this.formatOptionalDecimal(property.bed),
                 this.formatOptionalDecimal(property.bath)
