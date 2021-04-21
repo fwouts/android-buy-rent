@@ -6,7 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.fwouts.buyrent.domain.Property
 
-class ListViewModel : ViewModel() {
+class PropertyListViewModel : ViewModel() {
 
     private val _list = MutableLiveData<List<Property>>()
 

@@ -11,18 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fwouts.buyrent.R
 import com.fwouts.buyrent.testing.fixtures.PropertyFixtures
 
-/**
- * A placeholder fragment containing a simple view.
- */
-class PlaceholderFragment : Fragment() {
+class PropertyListFragment : Fragment() {
 
-    private lateinit var listViewModel: ListViewModel
-    private lateinit var adapter: ListAdapter
+    private lateinit var listViewModel: PropertyListViewModel
+    private lateinit var adapter: PropertyListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = ListAdapter()
-        listViewModel = ViewModelProvider(this).get(ListViewModel::class.java).apply {
+        adapter = PropertyListAdapter()
+        listViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java).apply {
             setList(PropertyFixtures.PROPERTIES)
         }
         listViewModel.list.observe(this, Observer {
@@ -52,8 +49,8 @@ class PlaceholderFragment : Fragment() {
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): PlaceholderFragment {
-            return PlaceholderFragment().apply {
+        fun newInstance(sectionNumber: Int): PropertyListFragment {
+            return PropertyListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SECTION_NUMBER, sectionNumber)
                 }

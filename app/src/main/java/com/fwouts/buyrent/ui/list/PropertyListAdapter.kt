@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fwouts.buyrent.R
 
-class ListAdapter() : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
+class PropertyListAdapter() : RecyclerView.Adapter<PropertyListAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val price: TextView = view.findViewById(R.id.price)
     }

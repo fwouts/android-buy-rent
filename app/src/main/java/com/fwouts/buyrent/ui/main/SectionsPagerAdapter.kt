@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fwouts.buyrent.R
-import com.fwouts.buyrent.ui.list.PlaceholderFragment
+import com.fwouts.buyrent.ui.list.PropertyListFragment
 
 private val TAB_TITLES = arrayOf(
         R.string.tab_text_1,
@@ -24,6 +24,6 @@ class SectionsPagerAdapter(fragmentActivity: FragmentActivity)
     }
 
     override fun createFragment(position: Int): Fragment {
-        return PlaceholderFragment.newInstance(position + 1)
+        return PropertyListFragment.newInstance(position + 1)
     }
 }
