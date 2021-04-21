@@ -63,10 +63,6 @@ class PropertyListFragment : Fragment() {
     companion object {
         private const val ARG_TYPE = "type"
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         @JvmStatic
         fun newInstance(type: ListType): PropertyListFragment {
             return PropertyListFragment().apply {
