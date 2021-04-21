@@ -7,8 +7,8 @@ class PropertyFixtures {
         val PROPERTY_1 = Property(
             price = "Contact Agent",
             address = "51 Imperial Avenue, Bondi",
-            bed = 4,
-            bath = 2,
+            bed = 4.0f,
+            bath = 2.0f,
             car = 4,
             imageUrl = "",
             agencyLogoUrl = ""
@@ -16,8 +16,8 @@ class PropertyFixtures {
         val PROPERTY_2 = Property(
             price = "Auction",
             address = "2/285-295 Bondi Road, Bondi",
-            bed = 3,
-            bath = 2,
+            bed = 3.0f,
+            bath = 2.0f,
             car = 2,
             imageUrl = "",
             agencyLogoUrl = ""
@@ -25,8 +25,8 @@ class PropertyFixtures {
         val PROPERTY_3 = Property(
             price = "AUCTION",
             address = "4/30 Penkivil Street, Bondi",
-            bed = 3,
-            bath = 2,
+            bed = 3.0f,
+            bath = 2.0f,
             car = 1,
             imageUrl = "",
             agencyLogoUrl = ""

@@ -8,7 +8,7 @@ data class Property(
     val address: String,
     val imageUrl: String,
     val agencyLogoUrl: String,
-    val bed: Int,
-    val bath: Int,
-    val car: Int
+    val bed: Float,
+    val bath: Float,
+    val car: Int?
 )

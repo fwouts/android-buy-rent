@@ -11,6 +11,6 @@ abstract class PropertyRepositoryModule {
 
     @Binds
     abstract fun bindPropertyRepository(
-        fake: FakePropertyRepository
+        impl: RemotePropertyRepository
     ): PropertyRepository
 }
