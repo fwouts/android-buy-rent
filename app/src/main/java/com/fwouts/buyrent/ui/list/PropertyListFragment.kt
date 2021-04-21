@@ -47,6 +47,9 @@ class PropertyListFragment : Fragment() {
         retryButton.setOnClickListener {
             listViewModel.refresh()
         }
+        listViewModel.refreshing.observe(viewLifecycleOwner, Observer { refreshing ->
+            swipeRefreshContainer.isRefreshing = refreshing
+        })
         listViewModel.showEmpty.observe(viewLifecycleOwner, Observer { show ->
             emptyView.visibility = if (show) {
                 View.VISIBLE
