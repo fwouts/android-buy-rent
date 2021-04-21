@@ -79,33 +79,29 @@ class PropertyListInstrumentedTest {
     lateinit var mockApi: BuyRentApi
 
     @Test
-    fun showsEmptyMessageWhenNoResults() {
-        runBlocking {
-            whenever(mockApi.search(eq(0), any())).thenReturn(SearchResponse(emptyList()))
-        }
+    fun showsEmptyMessageWhenNoResults(): Unit = runBlocking {
+        whenever(mockApi.search(eq(0), any())).thenReturn(SearchResponse(emptyList()))
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.empty_view)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun showsPaginatedResults() {
-        runBlocking {
-            whenever(mockApi.search(any(), any())).thenReturn(SearchResponse(emptyList()))
-            whenever(mockApi.search(eq(0), any())).thenReturn(
-                SearchResponse(
-                    listOf(
-                        PROPERTY_LISTING_1
-                    )
+    fun showsPaginatedResults(): Unit = runBlocking {
+        whenever(mockApi.search(any(), any())).thenReturn(SearchResponse(emptyList()))
+        whenever(mockApi.search(eq(0), any())).thenReturn(
+            SearchResponse(
+                listOf(
+                    PROPERTY_LISTING_1
                 )
             )
-            whenever(mockApi.search(eq(1), any())).thenReturn(
-                SearchResponse(
-                    listOf(
-                        PROPERTY_LISTING_2
-                    )
+        )
+        whenever(mockApi.search(eq(1), any())).thenReturn(
+            SearchResponse(
+                listOf(
+                    PROPERTY_LISTING_2
                 )
             )
-        }
+        )
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.empty_view)).check(matches(not(isDisplayed())))
 
