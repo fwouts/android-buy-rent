@@ -44,7 +44,7 @@ class PropertyListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_main, container, false)
+        val root = inflater.inflate(R.layout.fragment_property_list, container, false)
         val swipeRefreshContainer: SwipeRefreshLayout =
             root.findViewById(R.id.swipe_refresh_container)
         val recyclerView: RecyclerView = root.findViewById(R.id.recycler_view)
