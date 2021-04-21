@@ -8,16 +8,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.versionedparcelable.VersionedParcelize
 import com.fwouts.buyrent.R
 import com.fwouts.buyrent.testing.fixtures.PropertyFixtures
 
 class PropertyListFragment : Fragment() {
+    enum class ListType {
+        BUY,
+        RENT
+    }
 
+    private lateinit var type: ListType
     private lateinit var listViewModel: PropertyListViewModel
     private lateinit var adapter: PropertyListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        type = arguments?.getString(ARG_TYPE)?.let { ListType.valueOf(it) } ?: ListType.BUY
         adapter = PropertyListAdapter()
         listViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java).apply {
             setList(PropertyFixtures.PROPERTIES)
@@ -38,21 +45,17 @@ class PropertyListFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private const val ARG_SECTION_NUMBER = "section_number"
+        private const val ARG_TYPE = "type"
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): PropertyListFragment {
+        fun newInstance(type: ListType): PropertyListFragment {
             return PropertyListFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
+                    putString(ARG_TYPE, type.name)
                 }
             }
         }

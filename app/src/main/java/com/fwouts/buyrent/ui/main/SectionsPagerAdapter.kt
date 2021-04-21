@@ -7,11 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fwouts.buyrent.R
 import com.fwouts.buyrent.ui.list.PropertyListFragment
 
-private val TAB_TITLES = arrayOf(
-        R.string.tab_text_1,
-        R.string.tab_text_2
-)
-
 class SectionsPagerAdapter(fragmentActivity: FragmentActivity)
     : FragmentStateAdapter(fragmentActivity) {
 
@@ -20,10 +15,20 @@ class SectionsPagerAdapter(fragmentActivity: FragmentActivity)
     }
 
     @StringRes fun getTabTitle(position: Int): Int {
-        return TAB_TITLES[position]
+        return if (position == 0) {
+            R.string.tab_buy
+        } else {
+            R.string.tab_rent
+        }
     }
 
     override fun createFragment(position: Int): Fragment {
-        return PropertyListFragment.newInstance(position + 1)
+        return PropertyListFragment.newInstance(
+            if (position == 0) {
+                PropertyListFragment.ListType.BUY
+            } else {
+                PropertyListFragment.ListType.RENT
+            }
+        )
     }
 }
