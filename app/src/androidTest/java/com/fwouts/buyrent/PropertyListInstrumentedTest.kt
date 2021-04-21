@@ -2,6 +2,8 @@ package com.fwouts.buyrent
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -116,5 +118,37 @@ class PropertyListInstrumentedTest {
         onView(withText("0 bed, 12 bath")).check(matches(isDisplayed()))
     }
 
-    // TODO: Test switching between tabs.
+    @Test
+    fun showsExpectedContentForEachTab(): Unit = runBlocking {
+        val buyPropertyLabel = "to buy"
+        val rentPropertyLabel = "for rent"
+
+        whenever(mockApi.search(any(), any())).thenReturn(SearchResponse(emptyList()))
+        whenever(mockApi.search(eq(0), any())).then { invocation ->
+            val request = invocation.getArgument<SearchRequest>(1)
+            return@then SearchResponse(
+                when (request.search_mode) {
+                    SearchMode.BUY -> listOf(
+                        makePropertyListing(id = 1, price = buyPropertyLabel)
+                    )
+                    SearchMode.RENT -> listOf(
+                        makePropertyListing(id = 1, price = rentPropertyLabel)
+                    )
+                }
+            )
+        }
+        ActivityScenario.launch(MainActivity::class.java)
+
+        // By default, the Buy tab should be selected.
+        onView(withText(buyPropertyLabel)).check(matches(isDisplayed()))
+        onView(withText(rentPropertyLabel)).check(doesNotExist())
+
+        onView(withText("Rent")).perform(click())
+        onView(withText(buyPropertyLabel)).check(doesNotExist())
+        onView(withText(rentPropertyLabel)).check(matches(isDisplayed()))
+
+        onView(withText("Buy")).perform(click())
+        onView(withText(buyPropertyLabel)).check(matches(isDisplayed()))
+        onView(withText(rentPropertyLabel)).check(doesNotExist())
+    }
 }
