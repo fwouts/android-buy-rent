@@ -1,10 +1,6 @@
 package com.fwouts.buyrent.ui.list
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.recyclerview.widget.DiffUtil
-import com.fwouts.buyrent.R
-import com.fwouts.buyrent.domain.Property
 
 interface PropertyCardViewModel {
     companion object {
@@ -15,12 +11,16 @@ interface PropertyCardViewModel {
             ): Boolean =
                 oldItem.id == newItem.id
 
-            // TODO: Ensure all properties are covered.
             override fun areContentsTheSame(
                 oldItem: PropertyCardViewModel,
                 newItem: PropertyCardViewModel
-            ): Boolean =
-                oldItem.price == newItem.price
+            ) = (
+                    oldItem.price == newItem.price &&
+                            oldItem.description == newItem.description &&
+                            oldItem.address == newItem.address &&
+                            oldItem.imageUrl == newItem.imageUrl &&
+                            oldItem.agencyLogoUrl == newItem.agencyLogoUrl
+                    )
         }
     }
 
