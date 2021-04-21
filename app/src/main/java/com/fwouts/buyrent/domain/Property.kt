@@ -7,7 +7,7 @@ data class Property(
     val id: Long,
     val price: String,
     val address: String,
-    val imageUrl: String,
+    val imageUrls: List<String>,
     val agencyLogoUrl: String,
     val bed: Float,
     val bath: Float,

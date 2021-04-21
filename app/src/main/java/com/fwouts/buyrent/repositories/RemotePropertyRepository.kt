@@ -31,8 +31,8 @@ class RemotePropertyRepository @Inject constructor(val api: BuyRentApi) : Proper
                         id = id,
                         price = price,
                         address = address,
-                        imageUrl = "TODO",
-                        agencyLogoUrl = "TODO",
+                        imageUrls = listing.media.map { it.image_url },
+                        agencyLogoUrl = listing.advertiser.images.logo_url,
                         bed = listing.bedroom_count,
                         bath = listing.bathroom_count,
                         car = listing.carspace_count

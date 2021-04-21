@@ -1,5 +1,11 @@
-<resources>
+<resources  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Buy or Rent</string>
     <string name="tab_buy">Buy</string>
     <string name="tab_rent">Rent</string>
+    <string name="property_card_description_with_car">
+        <xliff:g id="bed_count" example="2">%1$.1f</xliff:g> bed, <xliff:g id="bath_count" example="1.5">%2$.1f</xliff:g> bath, <xliff:g id="car_count" example="2">%3$d</xliff:g> car
+    </string>
+    <string name="property_card_description_without_car">
+        <xliff:g id="bed_count" example="2">%1$.1f</xliff:g> bed, <xliff:g id="bath_count" example="1.5">%2$.1f</xliff:g> bath
+    </string>
 </resources>

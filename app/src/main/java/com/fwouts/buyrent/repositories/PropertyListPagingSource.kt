@@ -15,7 +15,7 @@ class PropertyListPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SearchListing> {
         val page = params.key ?: 0
-        return try {
+        try {
             val result = api.search(request(page))
             return LoadResult.Page(
                 data = result.search_results,
