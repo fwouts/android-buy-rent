@@ -8,9 +8,14 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.fwouts.buyrent.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PropertyListFragment : Fragment() {
@@ -28,10 +33,11 @@ class PropertyListFragment : Fragment() {
         type = arguments?.getString(ARG_TYPE)?.let { ListType.valueOf(it) } ?: ListType.BUY
         adapter = PropertyListAdapter()
         listViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java)
-        listViewModel.list.observe(this, Observer {
-            adapter.list = it
-            adapter.notifyDataSetChanged()
-        })
+        lifecycleScope.launch {
+            listViewModel.list.collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -42,8 +48,8 @@ class PropertyListFragment : Fragment() {
         val recyclerView: RecyclerView = root.findViewById(R.id.recycler_view)
         recyclerView.adapter = adapter
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
-        listViewModel.list.observe(viewLifecycleOwner, Observer {
-            progressBar.visibility = if (it == null) View.VISIBLE else View.GONE
+        adapter.loadStateFlow.asLiveData().observe(viewLifecycleOwner, Observer { state ->
+            progressBar.visibility = if (state.refresh is LoadState.Loading) View.VISIBLE else View.GONE
         })
         return root
     }

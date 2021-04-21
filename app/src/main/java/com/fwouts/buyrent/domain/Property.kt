@@ -4,6 +4,7 @@ import androidx.versionedparcelable.VersionedParcelize
 
 @VersionedParcelize
 data class Property(
+    val id: Long,
     val price: String,
     val address: String,
     val imageUrl: String,

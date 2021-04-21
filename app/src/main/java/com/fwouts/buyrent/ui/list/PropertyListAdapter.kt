@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fwouts.buyrent.R
 
-class PropertyListAdapter() : RecyclerView.Adapter<PropertyListAdapter.ViewHolder>() {
+class PropertyListAdapter :
+    PagingDataAdapter<PropertyViewModel, PropertyListAdapter.ViewHolder>(PropertyViewModel.COMPARATOR) {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val price: TextView = view.findViewById(R.id.price)
     }
-
-    var list: List<PropertyViewModel> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -21,11 +21,10 @@ class PropertyListAdapter() : RecyclerView.Adapter<PropertyListAdapter.ViewHolde
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = list[position]
-        holder.price.text = item.price
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
+        getItem(position)?.let { viewModel ->
+            with(viewModel) {
+                holder.price.text = price
+            }
+        }
     }
 }

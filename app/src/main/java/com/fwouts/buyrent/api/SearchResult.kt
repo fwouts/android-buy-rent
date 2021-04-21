@@ -9,11 +9,13 @@ data class SearchResult(
 )
 
 interface SearchListing {
+    val id: Long
     val address: String
 }
 
 @JsonClass(generateAdapter = true)
 data class PropertyListing(
+    override val id: Long,
     override val address: String,
     val price: String,
     val bedroom_count: Float,
@@ -23,10 +25,12 @@ data class PropertyListing(
 
 @JsonClass(generateAdapter = true)
 data class TopSpotListing(
+    override val id: Long,
     override val address: String,
 ): SearchListing
 
 @JsonClass(generateAdapter = true)
 data class ProjectListing(
+    override val id: Long,
     override val address: String,
 ): SearchListing

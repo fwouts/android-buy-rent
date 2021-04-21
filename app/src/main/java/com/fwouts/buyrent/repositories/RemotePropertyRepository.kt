@@ -1,35 +1,44 @@
 package com.fwouts.buyrent.repositories
 
+import androidx.paging.*
 import com.fwouts.buyrent.api.*
 import com.fwouts.buyrent.domain.Property
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RemotePropertyRepository @Inject constructor(val api: BuyRentApi) : PropertyRepository {
-    override fun getList(): Flow<List<Property>> {
-        return flow {
-            val result = api.search(
-                SearchRequest(
-                    dwelling_types = listOf(DwellingType.APARTMENT),
-                    search_mode = SearchMode.BUY
-                )
-            )
-            emit(
-                result.search_results.filterIsInstance<PropertyListing>().map { listing ->
-                    with(listing) {
-                        Property(
-                            price = price,
-                            address = address,
-                            imageUrl = "TODO",
-                            agencyLogoUrl = "TODO",
-                            bed = listing.bedroom_count,
-                            bath = listing.bathroom_count,
-                            car = listing.carspace_count
-                        )
-                    }
+    override fun getList(): Flow<PagingData<Property>> {
+        val pager = Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = {
+                // TODO: Actually use pagination in the API request.
+                PropertyListPagingSource(api) { page ->
+                    SearchRequest(
+                        dwelling_types = listOf(DwellingType.APARTMENT),
+                        search_mode = SearchMode.BUY
+                    )
                 }
-            )
+            }
+        )
+        return pager.flow.map { pagingData ->
+            pagingData.filter { it is PropertyListing }.map { listing ->
+                with(listing as PropertyListing) {
+                    Property(
+                        id = id,
+                        price = price,
+                        address = address,
+                        imageUrl = "TODO",
+                        agencyLogoUrl = "TODO",
+                        bed = listing.bedroom_count,
+                        bath = listing.bathroom_count,
+                        car = listing.carspace_count
+                    )
+                }
+            }
         }
     }
 }
