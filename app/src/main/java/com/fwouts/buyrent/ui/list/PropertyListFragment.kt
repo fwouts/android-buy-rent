@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import androidx.versionedparcelable.VersionedParcelize
 import com.fwouts.buyrent.R
-import com.fwouts.buyrent.testing.fixtures.PropertyFixtures
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PropertyListFragment : Fragment() {
     enum class ListType {
         BUY,
@@ -26,9 +26,7 @@ class PropertyListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         type = arguments?.getString(ARG_TYPE)?.let { ListType.valueOf(it) } ?: ListType.BUY
         adapter = PropertyListAdapter()
-        listViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java).apply {
-            setList(PropertyFixtures.PROPERTIES)
-        }
+        listViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java)
         listViewModel.list.observe(this, Observer {
             adapter.list = it
         })

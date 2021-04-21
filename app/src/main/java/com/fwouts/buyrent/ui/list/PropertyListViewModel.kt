@@ -1,20 +1,17 @@
 package com.fwouts.buyrent.ui.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.fwouts.buyrent.domain.Property
+import com.fwouts.buyrent.repositories.PropertyRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PropertyListViewModel : ViewModel() {
-
-    private val _list = MutableLiveData<List<Property>>()
+@HiltViewModel
+class PropertyListViewModel @Inject constructor(val repository: PropertyRepository) : ViewModel() {
+    private val _list = repository.getList().asLiveData()
 
     val list: LiveData<List<PropertyViewModel>> = Transformations.map(_list) { it ->
         it.map { property -> PropertyViewModel(property) }
-    }
-
-    fun setList(list: List<Property>) {
-        _list.value = list
     }
 }
