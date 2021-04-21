@@ -12,6 +12,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fwouts.buyrent.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -45,11 +47,15 @@ class PropertyListFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
+        val swipeRefreshContainer: SwipeRefreshLayout = root.findViewById(R.id.swipe_refresh_container)
         val recyclerView: RecyclerView = root.findViewById(R.id.recycler_view)
+
         recyclerView.adapter = adapter
-        val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
+        swipeRefreshContainer.setOnRefreshListener {
+            adapter.refresh()
+        }
         adapter.loadStateFlow.asLiveData().observe(viewLifecycleOwner, Observer { state ->
-            progressBar.visibility = if (state.refresh is LoadState.Loading) View.VISIBLE else View.GONE
+            swipeRefreshContainer.isRefreshing = (state.refresh is LoadState.Loading)
         })
         return root
     }
