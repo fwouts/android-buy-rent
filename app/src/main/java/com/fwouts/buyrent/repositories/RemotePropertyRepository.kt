@@ -15,18 +15,16 @@ class RemotePropertyRepository @Inject constructor(val api: BuyRentApi) : Proper
                 enablePlaceholders = true
             ),
             pagingSourceFactory = {
-                // TODO: Actually use pagination in the API request.
-                PropertyListPagingSource(api) { page ->
-                    SearchRequest(
+                PropertyListPagingSource(
+                    api, SearchRequest(
                         dwelling_types = listOf(DwellingType.APARTMENT),
                         search_mode = type.let {
                             when (it) {
                                 ListType.BUY -> SearchMode.BUY
                                 ListType.RENT -> SearchMode.RENT
                             }
-                        }
-                    )
-                }
+                        })
+                )
             }
         )
         return pager.flow.map { pagingData ->

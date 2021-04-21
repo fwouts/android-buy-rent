@@ -10,13 +10,13 @@ import java.io.IOException
 
 class PropertyListPagingSource(
     private val api: BuyRentApi,
-    private val request: (page: Int) -> SearchRequest
+    private val request: SearchRequest
 ) : PagingSource<Int, SearchListing>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SearchListing> {
         val page = params.key ?: 0
         try {
-            val result = api.search(request(page))
+            val result = api.search(page, request)
             return LoadResult.Page(
                 data = result.search_results,
                 nextKey = if (result.search_results.isNotEmpty()) {
