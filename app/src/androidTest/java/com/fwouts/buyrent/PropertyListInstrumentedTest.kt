@@ -13,18 +13,14 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import kotlinx.coroutines.runBlocking
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import org.hamcrest.Matchers.not
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnit
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
-import org.mockito.kotlin.whenever
-import java.io.IOException
-import java.lang.RuntimeException
 
 @UninstallModules(ApiModule::class)
 @HiltAndroidTest
@@ -75,51 +71,53 @@ class PropertyListInstrumentedTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    @get:Rule
-    val mockitoRule = MockitoJUnit.testRule(this)
-
     @BindValue
-    @Mock
+    @MockK
     lateinit var mockApi: BuyRentApi
 
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+    }
+
     @Test
-    fun showsEmptyMessageWhenNoResults(): Unit = runBlocking {
-        whenever(mockApi.search(eq(0), any())).thenReturn(SearchResponse(emptyList()))
+    fun showsEmptyMessageWhenNoResults() {
+        coEvery { mockApi.search(eq(0), any()) }.returns(SearchResponse(emptyList()))
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.empty_view)).check(matches(isDisplayed()))
         onView(withId(R.id.error_view)).check(matches(not(isDisplayed())))
     }
 
     @Test
-    fun showsErrorMessageOnFailure(): Unit = runBlocking {
-        whenever(mockApi.search(eq(0), any())).thenThrow(RuntimeException())
+    fun showsErrorMessageOnFailure() {
+        coEvery { mockApi.search(eq(0), any()) }.throws(RuntimeException())
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.error_view)).check(matches(isDisplayed()))
         onView(withId(R.id.empty_view)).check(matches(not(isDisplayed())))
     }
 
     @Test
-    fun retryButtonRefreshes(): Unit = runBlocking {
-        whenever(mockApi.search(eq(0), any())).thenThrow(RuntimeException())
+    fun retryButtonRefreshes() {
+        coEvery { mockApi.search(eq(0), any()) }.throws(RuntimeException())
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.error_view)).check(matches(isDisplayed()))
 
-        whenever(mockApi.search(eq(0), any())).thenReturn(SearchResponse(emptyList()))
+        coEvery { mockApi.search(eq(0), any()) }.returns(SearchResponse(emptyList()))
         onView(withId(R.id.retry_button)).perform(click())
         onView(withId(R.id.error_view)).check(matches(not(isDisplayed())))
     }
 
     @Test
-    fun showsPaginatedResults(): Unit = runBlocking {
-        whenever(mockApi.search(any(), any())).thenReturn(SearchResponse(emptyList()))
-        whenever(mockApi.search(eq(0), any())).thenReturn(
+    fun showsPaginatedResults() {
+        coEvery { mockApi.search(any(), any()) }.returns(SearchResponse(emptyList()))
+        coEvery { mockApi.search(eq(0), any()) }.returns(
             SearchResponse(
                 listOf(
                     PROPERTY_LISTING_1
                 )
             )
         )
-        whenever(mockApi.search(eq(1), any())).thenReturn(
+        coEvery { mockApi.search(eq(1), any()) }.returns(
             SearchResponse(
                 listOf(
                     PROPERTY_LISTING_2
@@ -142,14 +140,14 @@ class PropertyListInstrumentedTest {
     }
 
     @Test
-    fun showsExpectedContentForEachTab(): Unit = runBlocking {
+    fun showsExpectedContentForEachTab() {
         val buyPropertyLabel = "to buy"
         val rentPropertyLabel = "for rent"
 
-        whenever(mockApi.search(any(), any())).thenReturn(SearchResponse(emptyList()))
-        whenever(mockApi.search(eq(0), any())).then { invocation ->
-            val request = invocation.getArgument<SearchRequest>(1)
-            return@then SearchResponse(
+        coEvery { mockApi.search(any(), any()) }.returns(SearchResponse(emptyList()))
+        coEvery { mockApi.search(eq(0), any()) }.coAnswers { call ->
+            val request = call.invocation.args[1] as SearchRequest
+            return@coAnswers SearchResponse(
                 when (request.search_mode) {
                     SearchMode.BUY -> listOf(
                         makePropertyListing(id = 1, price = buyPropertyLabel)
