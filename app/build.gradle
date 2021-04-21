@@ -51,6 +51,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation "androidx.paging:paging-runtime-ktx:3.0.0-beta03"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    testImplementation "io.kotest:kotest-runner-junit4:$kotest_version"
+    testImplementation "io.kotest:kotest-assertions-core:$kotest_version"
     testImplementation 'junit:junit:4.+'
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
