@@ -1,5 +1,6 @@
 package com.fwouts.buyrent.repositories
 
+import com.fwouts.buyrent.repositories.remote.RemotePropertyRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

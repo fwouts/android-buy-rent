@@ -1,4 +1,4 @@
-package com.fwouts.buyrent.repositories
+package com.fwouts.buyrent.repositories.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

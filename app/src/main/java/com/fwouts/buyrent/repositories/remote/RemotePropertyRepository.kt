@@ -1,8 +1,10 @@
-package com.fwouts.buyrent.repositories
+package com.fwouts.buyrent.repositories.remote
 
 import androidx.paging.*
 import com.fwouts.buyrent.api.*
 import com.fwouts.buyrent.domain.Property
+import com.fwouts.buyrent.repositories.ListType
+import com.fwouts.buyrent.repositories.PropertyRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
