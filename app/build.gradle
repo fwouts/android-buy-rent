@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.fwouts.buyrent.EspressoTestRunner"
     }
 
     buildTypes {
@@ -52,9 +52,16 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.0.0-beta03"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     testImplementation 'junit:junit:4.+'
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:$hilt_version"
+    androidTestImplementation group: 'org.mockito', name: 'mockito-android', version: "$mockito_kotlin_version"
+    androidTestImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    androidTestAnnotationProcessor "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
