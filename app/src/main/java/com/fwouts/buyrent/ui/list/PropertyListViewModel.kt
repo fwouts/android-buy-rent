@@ -25,7 +25,7 @@ class PropertyListViewModel @AssistedInject constructor(
     private val _loadingState = _adapter.loadStateFlow.asLiveData()
     private val _list: Flow<PagingData<PropertyCardViewModel>> =
         repository.getList(type).map { pagingData ->
-            pagingData.map { property -> PropertyCardViewModel(application, property) }
+            pagingData.map { property -> PropertyCardViewModelImpl(application, property) }
         }
 
     init {
