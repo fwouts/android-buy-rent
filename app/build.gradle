@@ -68,7 +68,7 @@ dependencies {
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
     androidTestAnnotationProcessor "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
