@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 
 class PropertyListAdapter :
-    PagingDataAdapter<PropertyViewModel, PropertyCardViewHolder>(PropertyViewModel.COMPARATOR) {
+    PagingDataAdapter<PropertyCardViewModel, PropertyCardViewHolder>(PropertyCardViewModel.COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyCardViewHolder {
         return PropertyCardViewHolder.create(parent)
     }

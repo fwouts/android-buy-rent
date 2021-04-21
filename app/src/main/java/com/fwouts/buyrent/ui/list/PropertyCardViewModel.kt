@@ -6,20 +6,20 @@ import androidx.recyclerview.widget.DiffUtil
 import com.fwouts.buyrent.R
 import com.fwouts.buyrent.domain.Property
 
-class PropertyViewModel(application: Application, private val property: Property) :
+class PropertyCardViewModel(application: Application, private val property: Property) :
     AndroidViewModel(application) {
     companion object {
-        val COMPARATOR = object : DiffUtil.ItemCallback<PropertyViewModel>() {
+        val COMPARATOR = object : DiffUtil.ItemCallback<PropertyCardViewModel>() {
             override fun areItemsTheSame(
-                oldItem: PropertyViewModel,
-                newItem: PropertyViewModel
+                oldItem: PropertyCardViewModel,
+                newItem: PropertyCardViewModel
             ): Boolean =
                 oldItem.id == newItem.id
 
             // TODO: Ensure all properties are covered.
             override fun areContentsTheSame(
-                oldItem: PropertyViewModel,
-                newItem: PropertyViewModel
+                oldItem: PropertyCardViewModel,
+                newItem: PropertyCardViewModel
             ): Boolean =
                 oldItem.price == newItem.price
         }

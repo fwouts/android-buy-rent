@@ -29,7 +29,7 @@ class PropertyCardViewHolder(view: View, private val loadingAnimation: CircularP
     private val image: ImageView = view.findViewById(R.id.image)
     private val agencyLogo: ImageView = view.findViewById(R.id.agency_logo)
 
-    fun bind(viewModel: PropertyViewModel) {
+    fun bind(viewModel: PropertyCardViewModel) {
         price.text = viewModel.price
         description.text = viewModel.description
         address.text = viewModel.address
