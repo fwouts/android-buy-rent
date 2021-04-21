@@ -5,5 +5,10 @@ import com.fwouts.buyrent.domain.Property
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {
-    fun getList(): Flow<PagingData<Property>>
+    fun getList(type: ListType): Flow<PagingData<Property>>
+}
+
+enum class ListType {
+    BUY,
+    RENT
 }

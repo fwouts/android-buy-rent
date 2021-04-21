@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,18 +12,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.fwouts.buyrent.R
+import com.fwouts.buyrent.repositories.ListType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PropertyListFragment : Fragment() {
-    enum class ListType {
-        BUY,
-        RENT
-    }
+    @Inject lateinit var viewModelFactory: PropertyListViewModel.Factory
 
     private lateinit var type: ListType
     private lateinit var listViewModel: PropertyListViewModel
@@ -34,7 +31,7 @@ class PropertyListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         type = arguments?.getString(ARG_TYPE)?.let { ListType.valueOf(it) } ?: ListType.BUY
         adapter = PropertyListAdapter()
-        listViewModel = ViewModelProvider(this).get(PropertyListViewModel::class.java)
+        listViewModel = viewModelFactory.create(type)
         lifecycleScope.launch {
             listViewModel.list.collectLatest {
                 adapter.submitData(it)

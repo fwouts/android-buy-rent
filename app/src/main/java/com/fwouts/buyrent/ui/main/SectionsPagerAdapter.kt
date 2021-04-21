@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fwouts.buyrent.R
+import com.fwouts.buyrent.repositories.ListType
 import com.fwouts.buyrent.ui.list.PropertyListFragment
 
 class SectionsPagerAdapter(fragmentActivity: FragmentActivity)
@@ -25,9 +26,9 @@ class SectionsPagerAdapter(fragmentActivity: FragmentActivity)
     override fun createFragment(position: Int): Fragment {
         return PropertyListFragment.newInstance(
             if (position == 0) {
-                PropertyListFragment.ListType.BUY
+                ListType.BUY
             } else {
-                PropertyListFragment.ListType.RENT
+                ListType.RENT
             }
         )
     }

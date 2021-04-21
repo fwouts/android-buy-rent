@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RemotePropertyRepository @Inject constructor(val api: BuyRentApi) : PropertyRepository {
-    override fun getList(): Flow<PagingData<Property>> {
+    override fun getList(type: ListType): Flow<PagingData<Property>> {
         val pager = Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -19,7 +19,12 @@ class RemotePropertyRepository @Inject constructor(val api: BuyRentApi) : Proper
                 PropertyListPagingSource(api) { page ->
                     SearchRequest(
                         dwelling_types = listOf(DwellingType.APARTMENT),
-                        search_mode = SearchMode.BUY
+                        search_mode = type.let {
+                            when (it) {
+                                ListType.BUY -> SearchMode.BUY
+                                ListType.RENT -> SearchMode.RENT
+                            }
+                        }
                     )
                 }
             }
