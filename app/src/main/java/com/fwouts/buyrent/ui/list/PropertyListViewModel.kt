@@ -11,7 +11,7 @@ import javax.inject.Inject
 class PropertyListViewModel @Inject constructor(val repository: PropertyRepository) : ViewModel() {
     private val _list = repository.getList().asLiveData()
 
-    val list: LiveData<List<PropertyViewModel>> = Transformations.map(_list) { it ->
+    val list: LiveData<List<PropertyViewModel>> = Transformations.map(_list) {
         it.map { property -> PropertyViewModel(property) }
     }
 }
