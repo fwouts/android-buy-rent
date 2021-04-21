@@ -4,10 +4,13 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import com.fwouts.buyrent.R
 import com.fwouts.buyrent.domain.Property
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class PropertyCardViewModelImpl(
+class PropertyCardViewModelImpl @AssistedInject constructor(
     private val application: Application,
-    private val property: Property
+    @Assisted private val property: Property
 ) :
     ViewModel(), PropertyCardViewModel {
     override val id: Long
@@ -69,5 +72,10 @@ class PropertyCardViewModelImpl(
         } else {
             String.format("%.1f", d)
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(property: Property): PropertyCardViewModelImpl
     }
 }

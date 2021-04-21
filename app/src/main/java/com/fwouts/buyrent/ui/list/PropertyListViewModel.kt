@@ -1,6 +1,5 @@
 package com.fwouts.buyrent.ui.list
 
-import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -18,14 +17,14 @@ import kotlinx.coroutines.launch
 
 class PropertyListViewModel @AssistedInject constructor(
     repository: PropertyRepository,
-    private val application: Application,
+    cardViewModelFactory: PropertyCardViewModelImpl.Factory,
     @Assisted type: ListType
 ) : ViewModel() {
     private val _adapter = PropertyListAdapter()
     private val _loadingState = _adapter.loadStateFlow.asLiveData()
     private val _list: Flow<PagingData<PropertyCardViewModel>> =
         repository.getList(type).map { pagingData ->
-            pagingData.map { property -> PropertyCardViewModelImpl(application, property) }
+            pagingData.map(cardViewModelFactory::create)
         }
 
     init {
