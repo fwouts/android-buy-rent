@@ -41,14 +41,14 @@ class PropertyViewModel(application: Application, private val property: Property
             return property.car?.let { car ->
                 resources.getString(
                     R.string.property_card_description_with_car,
-                    property.bed,
-                    property.bath,
-                    car
+                    this.formatOptionalDecimal(property.bed),
+                    this.formatOptionalDecimal(property.bath),
+                    car.toString(10)
                 )
             } ?: resources.getString(
                 R.string.property_card_description_without_car,
-                property.bed,
-                property.bath
+                this.formatOptionalDecimal(property.bed),
+                this.formatOptionalDecimal(property.bath)
             )
         }
 
@@ -67,4 +67,23 @@ class PropertyViewModel(application: Application, private val property: Property
         get() {
             return property.agencyLogoUrl
         }
+
+    /**
+     * Returns a decimal representation when there is a decimal part, otherwise returns an integer
+     * representation.
+     *
+     * See https://stackoverflow.com/questions/703396
+     *
+     * TODO: There is probably a much better way to do this. Investigate when there is more time.
+     */
+    private fun formatOptionalDecimal(d: Float): String {
+        return if (d % 1.0 == 0.0) {
+            String.format(
+                "%d",
+                d.toLong()
+            )
+        } else {
+            String.format("%.1f", d)
+        }
+    }
 }
