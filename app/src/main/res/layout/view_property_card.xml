@@ -30,28 +30,34 @@
 
         <TextView
             android:id="@+id/price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/property_card_padding"
+            android:textAppearance="@style/PropertyCardPrice"
             app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Contact Agent" />
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/property_card_padding"
+            android:textAppearance="@style/PropertyCardDescription"
             app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/price"
             tools:text="4 bed, 2 bath, 4 car" />
 
         <TextView
             android:id="@+id/address"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/property_card_padding"
+            android:textAppearance="@style/PropertyCardAddress"
             app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description"
             tools:text="51 Imperial Avenue, Bondi" />
 

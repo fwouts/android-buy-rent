@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PropertyCardPrice">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#af24ff</item>
+    </style>
+    <style name="PropertyCardDescription">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#222</item>
+    </style>
+    <style name="PropertyCardAddress">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#555</item>
+    </style>
+</resources>
