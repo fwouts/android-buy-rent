@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
@@ -48,9 +49,14 @@ class PropertyListFragment : Fragment() {
             root.findViewById(R.id.swipe_refresh_container)
         val recyclerView: RecyclerView = root.findViewById(R.id.recycler_view)
         val emptyView: View = root.findViewById(R.id.empty_view)
+        val errorView: View = root.findViewById(R.id.error_view)
+        val retryButton: Button = root.findViewById(R.id.retry_button)
 
         recyclerView.adapter = adapter
         swipeRefreshContainer.setOnRefreshListener {
+            adapter.refresh()
+        }
+        retryButton.setOnClickListener {
             adapter.refresh()
         }
         val loadingState = adapter.loadStateFlow.asLiveData()
@@ -58,6 +64,12 @@ class PropertyListFragment : Fragment() {
             swipeRefreshContainer.isRefreshing = (state.refresh is LoadState.Loading)
             emptyView.visibility =
                 if (state.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            errorView.visibility =
+                if (state.refresh is LoadState.Error && adapter.itemCount == 0) {
                     View.VISIBLE
                 } else {
                     View.GONE

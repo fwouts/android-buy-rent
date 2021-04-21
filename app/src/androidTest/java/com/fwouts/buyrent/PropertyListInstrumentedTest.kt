@@ -23,6 +23,8 @@ import org.mockito.junit.MockitoJUnit
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.whenever
+import java.io.IOException
+import java.lang.RuntimeException
 
 @UninstallModules(ApiModule::class)
 @HiltAndroidTest
@@ -85,6 +87,26 @@ class PropertyListInstrumentedTest {
         whenever(mockApi.search(eq(0), any())).thenReturn(SearchResponse(emptyList()))
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.empty_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.error_view)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun showsErrorMessageOnFailure(): Unit = runBlocking {
+        whenever(mockApi.search(eq(0), any())).thenThrow(RuntimeException())
+        ActivityScenario.launch(MainActivity::class.java)
+        onView(withId(R.id.error_view)).check(matches(isDisplayed()))
+        onView(withId(R.id.empty_view)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun retryButtonRefreshes(): Unit = runBlocking {
+        whenever(mockApi.search(eq(0), any())).thenThrow(RuntimeException())
+        ActivityScenario.launch(MainActivity::class.java)
+        onView(withId(R.id.error_view)).check(matches(isDisplayed()))
+
+        whenever(mockApi.search(eq(0), any())).thenReturn(SearchResponse(emptyList()))
+        onView(withId(R.id.retry_button)).perform(click())
+        onView(withId(R.id.error_view)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -106,6 +128,7 @@ class PropertyListInstrumentedTest {
         )
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.empty_view)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.error_view)).check(matches(not(isDisplayed())))
 
         // First property.
         onView(withText("not for sale")).check(matches(isDisplayed()))

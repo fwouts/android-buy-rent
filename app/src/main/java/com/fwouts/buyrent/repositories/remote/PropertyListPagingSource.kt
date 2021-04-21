@@ -7,6 +7,7 @@ import com.fwouts.buyrent.api.SearchListing
 import com.fwouts.buyrent.api.SearchRequest
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.Exception
 
 class PropertyListPagingSource(
     private val api: BuyRentApi,
@@ -30,9 +31,8 @@ class PropertyListPagingSource(
                     null
                 }
             )
-        } catch (exception: IOException) {
-            return LoadResult.Error(exception)
-        } catch (exception: HttpException) {
+        } catch (exception: Exception) {
+            // TODO: Unless this is a network error, we'd want to log this into Firebase / Sentry.
             return LoadResult.Error(exception)
         }
     }
