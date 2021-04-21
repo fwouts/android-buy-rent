@@ -2,6 +2,7 @@
     <string name="app_name">Buy or Rent</string>
     <string name="tab_buy">Buy</string>
     <string name="tab_rent">Rent</string>
+    <string name="property_list_empty_text">No properties!</string>
     <string name="property_card_description_with_car">
         <xliff:g id="bed_count" example="2">%1$s</xliff:g> bed, <xliff:g id="bath_count" example="1.5">%2$s</xliff:g> bath, <xliff:g id="car_count" example="2">%3$s</xliff:g> car
     </string>

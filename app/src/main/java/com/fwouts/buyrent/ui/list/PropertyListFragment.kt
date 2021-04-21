@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -21,7 +20,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class PropertyListFragment : Fragment() {
-    @Inject lateinit var viewModelFactory: PropertyListViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: PropertyListViewModel.Factory
 
     private lateinit var type: ListType
     private lateinit var listViewModel: PropertyListViewModel
@@ -40,19 +40,28 @@ class PropertyListFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_main, container, false)
-        val swipeRefreshContainer: SwipeRefreshLayout = root.findViewById(R.id.swipe_refresh_container)
+        val swipeRefreshContainer: SwipeRefreshLayout =
+            root.findViewById(R.id.swipe_refresh_container)
         val recyclerView: RecyclerView = root.findViewById(R.id.recycler_view)
+        val emptyView: View = root.findViewById(R.id.empty_view)
 
         recyclerView.adapter = adapter
         swipeRefreshContainer.setOnRefreshListener {
             adapter.refresh()
         }
-        adapter.loadStateFlow.asLiveData().observe(viewLifecycleOwner, Observer { state ->
+        val loadingState = adapter.loadStateFlow.asLiveData()
+        loadingState.observe(viewLifecycleOwner, Observer { state ->
             swipeRefreshContainer.isRefreshing = (state.refresh is LoadState.Loading)
+            emptyView.visibility =
+                if (state.refresh is LoadState.NotLoading && adapter.itemCount == 0) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
         })
         return root
     }
