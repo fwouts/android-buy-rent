@@ -19,7 +19,11 @@ class PropertyListPagingSource(
             val result = api.search(request(page))
             return LoadResult.Page(
                 data = result.search_results,
-                nextKey = page + 1,
+                nextKey = if (result.search_results.isNotEmpty()) {
+                    page + 1
+                } else {
+                    null
+                },
                 prevKey = if (page > 0) {
                     page - 1
                 } else {
