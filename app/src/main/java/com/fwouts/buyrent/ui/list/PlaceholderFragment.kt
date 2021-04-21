@@ -1,4 +1,4 @@
-package com.fwouts.buyrent.ui.main
+package com.fwouts.buyrent.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater

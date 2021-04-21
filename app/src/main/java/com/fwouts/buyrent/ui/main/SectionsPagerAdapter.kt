@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fwouts.buyrent.R
+import com.fwouts.buyrent.ui.list.PlaceholderFragment
 
 private val TAB_TITLES = arrayOf(
         R.string.tab_text_1,

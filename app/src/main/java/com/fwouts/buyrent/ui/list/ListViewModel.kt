@@ -1,10 +1,9 @@
-package com.fwouts.buyrent.ui.main
+package com.fwouts.buyrent.ui.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.fwouts.buyrent.domain.Property
 
 class ListViewModel : ViewModel() {

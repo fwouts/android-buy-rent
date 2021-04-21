@@ -1,4 +1,4 @@
-package com.fwouts.buyrent.ui.main
+package com.fwouts.buyrent.ui.list
 
 import androidx.lifecycle.ViewModel
 import com.fwouts.buyrent.domain.Property
