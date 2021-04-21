@@ -30,20 +30,7 @@ class RemotePropertyRepository @Inject constructor(val api: BuyRentApi) : Proper
             }
         )
         return pager.flow.map { pagingData ->
-            pagingData.filter { it is PropertyListing }.map { listing ->
-                with(listing as PropertyListing) {
-                    Property(
-                        id = id,
-                        price = price,
-                        address = address,
-                        imageUrls = listing.media.map { it.image_url },
-                        agencyLogoUrl = listing.advertiser.images.logo_url,
-                        bed = listing.bedroom_count,
-                        bath = listing.bathroom_count,
-                        car = listing.carspace_count
-                    )
-                }
-            }
+            pagingData.filter { it is PropertyListing }.map { (it as PropertyListing).toProperty() }
         }
     }
 }
