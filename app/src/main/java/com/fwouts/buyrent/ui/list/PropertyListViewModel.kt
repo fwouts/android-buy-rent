@@ -35,20 +35,17 @@ class PropertyListViewModel @AssistedInject constructor(
         }
     }
 
-    val adapter: RecyclerView.Adapter<PropertyCardViewHolder>
-        get() = _adapter
+    val adapter: RecyclerView.Adapter<PropertyCardViewHolder> = _adapter
 
-    val refreshing: LiveData<Boolean>
-        get() = _loadingState.map { it.refresh is LoadState.Loading }
+    val refreshing: LiveData<Boolean> = _loadingState.map { it.refresh is LoadState.Loading }
 
-    val showList: LiveData<Boolean>
-        get() = _loadingState.map { it.refresh !is LoadState.Error }
+    val showList: LiveData<Boolean> = _loadingState.map { it.refresh !is LoadState.Error }
 
-    val showEmpty: LiveData<Boolean>
-        get() = _loadingState.map { it.refresh is LoadState.NotLoading && adapter.itemCount == 0 }
+    val showEmpty: LiveData<Boolean> =
+        _loadingState.map { it.refresh is LoadState.NotLoading && adapter.itemCount == 0 }
 
-    val showError: LiveData<Boolean>
-        get() = _loadingState.map { it.refresh is LoadState.Error && adapter.itemCount == 0 }
+    val showError: LiveData<Boolean> =
+        _loadingState.map { it.refresh is LoadState.Error && adapter.itemCount == 0 }
 
     fun refresh() {
         _adapter.refresh()
