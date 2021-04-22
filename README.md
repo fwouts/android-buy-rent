@@ -51,8 +51,19 @@ Testing is mostly achieved through instrumented tests. There are some unit tests
 
 ## Improvements to be made
 
+- We currently ignore non-property search results, which don't have the expected data.
 - `PropertyListViewModel` currently holds the adapter, which is tightly coupled to view rendering logic. A better architecture would probably extract the adapter out.
 - We rely on the Jetpack's [paging library](https://developer.android.com/topic/libraries/architecture/paging), which is currently in 3.0 beta version. Ideally, we would only use final versions in production.
 - While pagination capabilities are implemented, the underlying API doesn't seem to offer pagination. It should hopefully be a simple addition.
 - Pagination currently relies on page numbers. A more resilient approach would be using opaque server-driven cursor strings, to ensure a frequently mutating dataset doesn't result in pagination bugs.
 - The loading and error states could be implemented better using a [`LoadStateAdapter`](https://developer.android.com/topic/libraries/architecture/paging/v3-paged-data).
+
+## Lessons learned
+
+I had quite a bit of fun making this! I hadn't written much Android code since early 2017, and I'm quite pleased with how much the Android APIs have matured since. I ended up spending about 14 hours overall (including a fair bit of learning time).
+
+Here are a few random things I learned:
+- Android Studio doesn't work well on an Apple M1 laptop. Thankfully [someone made a fork](https://github.com/dsa28s/android-studio-apple-m1) which works reasonably well, but it's still rather sluggish.
+- `LiveData` and Kotlin coroutines make code much simpler! I'm glad we don't need `RxJava` anymore to make a good app nowadays.
+- `PagingData` is a great idea. I can't wait to see these ideas spread around the community.
+- `Dagger` has really matured with `Hilt`. The boilerplate is quite minimal, especially when it comes to auto-generated factories with `@AssistedInject`.
