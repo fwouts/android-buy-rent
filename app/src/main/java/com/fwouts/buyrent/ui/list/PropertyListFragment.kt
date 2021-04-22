@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.fwouts.buyrent.R
+import com.fwouts.buyrent.databinding.FragmentPropertyListBinding
 import com.fwouts.buyrent.repositories.ListType
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,39 +29,34 @@ class PropertyListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_property_list, container, false)
-        val swipeRefreshContainer: SwipeRefreshLayout =
-            root.findViewById(R.id.swipe_refresh_container)
-        val recyclerView: RecyclerView = root.findViewById(R.id.recycler_view)
-        val emptyView: View = root.findViewById(R.id.empty_view)
-        val errorView: View = root.findViewById(R.id.error_view)
-        val retryButton: Button = root.findViewById(R.id.retry_button)
+        val binding = FragmentPropertyListBinding.inflate(inflater, container, false)
 
-        recyclerView.adapter = listViewModel.adapter
-        swipeRefreshContainer.setOnRefreshListener {
+        binding.recyclerView.adapter = listViewModel.adapter
+        binding.swipeRefreshContainer.setOnRefreshListener {
             listViewModel.refresh()
         }
-        retryButton.setOnClickListener {
+        binding.retryButton.setOnClickListener {
             listViewModel.refresh()
         }
         listViewModel.refreshing.observe(viewLifecycleOwner, Observer { refreshing ->
-            swipeRefreshContainer.isRefreshing = refreshing
+            binding.swipeRefreshContainer.isRefreshing = refreshing
         })
         listViewModel.showEmpty.observe(viewLifecycleOwner, Observer { show ->
-            emptyView.visibility = if (show) {
+            binding.emptyView.visibility = if (show) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
         })
         listViewModel.showError.observe(viewLifecycleOwner, Observer { show ->
-            errorView.visibility = if (show) {
+            binding.errorView.visibility = if (show) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
         })
-        return root
+
+        return binding.root
     }
 
     companion object {

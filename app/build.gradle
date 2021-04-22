@@ -19,6 +19,9 @@ android {
         testInstrumentationRunner "com.fwouts.buyrent.EspressoTestRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
