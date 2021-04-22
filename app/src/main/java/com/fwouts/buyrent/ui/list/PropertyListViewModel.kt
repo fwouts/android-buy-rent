@@ -45,7 +45,7 @@ class PropertyListViewModel @AssistedInject constructor(
         _loadingState.map { it.refresh is LoadState.NotLoading && adapter.itemCount == 0 }
 
     val showError: LiveData<Boolean> =
-        _loadingState.map { it.refresh is LoadState.Error && adapter.itemCount == 0 }
+        _loadingState.map { it.refresh is LoadState.Error }
 
     fun refresh() {
         _adapter.refresh()
