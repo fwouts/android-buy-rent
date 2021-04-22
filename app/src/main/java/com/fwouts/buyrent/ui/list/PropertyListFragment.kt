@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.fwouts.buyrent.databinding.FragmentPropertyListBinding
@@ -41,19 +42,14 @@ class PropertyListFragment : Fragment() {
         listViewModel.refreshing.observe(viewLifecycleOwner, Observer { refreshing ->
             binding.swipeRefreshContainer.isRefreshing = refreshing
         })
+        listViewModel.showList.observe(viewLifecycleOwner, Observer { show ->
+            binding.recyclerView.isVisible = show
+        })
         listViewModel.showEmpty.observe(viewLifecycleOwner, Observer { show ->
-            binding.emptyView.visibility = if (show) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            binding.emptyView.isVisible = show
         })
         listViewModel.showError.observe(viewLifecycleOwner, Observer { show ->
-            binding.errorView.visibility = if (show) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            binding.errorView.isVisible = show
         })
 
         return binding.root

@@ -3,6 +3,7 @@ package com.fwouts.buyrent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -94,6 +95,29 @@ class PropertyListInstrumentedTest {
         ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.error_view)).check(matches(isDisplayed()))
         onView(withId(R.id.empty_view)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun showsErrorMessageOnFailureAfterSuccessfulLoad() {
+        coEvery { mockApi.search(any(), any()) }.returns(SearchResponse(emptyList()))
+        coEvery { mockApi.search(eq(0), any()) }.returns(
+            SearchResponse(
+                listOf(
+                    PROPERTY_LISTING_1,
+                    PROPERTY_LISTING_2
+                )
+            )
+        )
+        ActivityScenario.launch(MainActivity::class.java)
+        onView(withText(PROPERTY_LISTING_1.price)).check(matches(isDisplayed()))
+        onView(withId(R.id.error_view)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.empty_view)).check(matches(not(isDisplayed())))
+
+        coEvery { mockApi.search(eq(0), any()) }.throws(RuntimeException())
+        onView(withId(R.id.swipe_refresh_container)).perform(swipeDown());
+
+        onView(withId(R.id.error_view)).check(matches(isDisplayed()))
+        onView(withText(PROPERTY_LISTING_1.price)).check(matches(not(isDisplayed())))
     }
 
     @Test
